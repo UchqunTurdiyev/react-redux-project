@@ -17,11 +17,12 @@ function Register(props) {
     const user = {username: userName, email, password: parol}
     try {
       const response = await AuthService.userRegister(user)
-      console.log(response);
-      console.log(user);
-      dispatch(signUserSuccess())
+      dispatch(signUserSuccess(response.user))
     }catch(error) {
-      dispatch(signUserFailure())
+      console.log(
+        error.response.data.errors
+      );
+      dispatch(signUserFailure(error.response.data.errors))
     }
   }
 

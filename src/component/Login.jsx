@@ -17,10 +17,9 @@ function Login() {
       const user = {email, password: parol}
       try{
         const response = await AuthService.userLogin(user)
-        console.log(response);
-        dispatch(signUserSuccess())
+        dispatch(signUserSuccess(response.user))
       }catch(error){
-        dispatch(signUserFailure())
+        dispatch(signUserFailure(error.response.data.errors))
       }
   }
 
