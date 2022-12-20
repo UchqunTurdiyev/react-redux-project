@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import AuthService from "../servis/auth";
 import { signUserFailure, signUserStart, signUserSuccess } from "../slice/auth";
 import { Input } from "../ui";
+import {ValidationError} from "./";
 
 function Register(props) {
   const [userName, setUserName] = useState("");
@@ -33,6 +34,7 @@ function Register(props) {
         <div className="mt-4 bg-white shadow-md rounded-lg text-left">
           <div className="h-2 bg-purple-400 rounded-t-md"></div>
           <div className="px-8 py-6 ">
+            <ValidationError />
             <Input label={"Username"} state={userName} setState={setUserName} />
             <Input
               label={"Email Adress"}
