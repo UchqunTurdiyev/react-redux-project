@@ -35,7 +35,8 @@ function Register(props) {
     if(loggedIn) {
       navigation('/')
     }
-  })
+    // eslint-disable-next-line
+  }, [loggedIn])
 
   return (
     <div className="relative flex min-h-screen text-gray-800 antialiased flex-col justify-center overflow-hidden bg-gray-50 sm:py-12">

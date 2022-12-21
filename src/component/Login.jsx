@@ -12,7 +12,7 @@ function Login() {
   const [parol, setParol] = useState("")
   const dispatch = useDispatch()
   const {isLoading, loggedIn} = useSelector(state => state.auth)
-  const navigation = useNavigate()
+  const navigate = useNavigate()
 
   const loginHandler = async (e) => {
       e.preventDefault()
@@ -21,16 +21,17 @@ function Login() {
       try{
         const response = await AuthService.userLogin(user)
         dispatch(signUserSuccess(response.user))
-        navigation('/')
+        navigate('/')
       }catch(error){
-        dispatch(signUserFailure(error.response.data.errors))
+        dispatch(signUserFailure(error.response.data.errors ))
       }
   }
   useEffect(() => {
     if(loggedIn) {
-      navigation('/')
+      navigate('/')
     }
-  })
+    // eslint-disable-next-line
+  }, [loggedIn])
   console.log(isLoading);
   return (
     <div className="relative flex min-h-screen text-gray-800 antialiased flex-col justify-center overflow-hidden bg-gray-50 sm:py-12">
