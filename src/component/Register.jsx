@@ -1,5 +1,7 @@
+import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import AuthService from "../servis/auth";
 import { signUserFailure, signUserStart, signUserSuccess } from "../slice/auth";
 import { Input } from "../ui";
@@ -10,7 +12,8 @@ function Register(props) {
   const [email, setEmail] = useState("");
   const [parol, setParol] = useState("");
   const dispatch = useDispatch()
-  const {isLoading} = useSelector(state => state.auth)
+  const {isLoading, loggedIn} = useSelector(state => state.auth)
+  const navigation = useNavigate()
 
   const registerHandler = async (e) => {
     e.preventDefault()
@@ -19,6 +22,7 @@ function Register(props) {
     try {
       const response = await AuthService.userRegister(user)
       dispatch(signUserSuccess(response.user))
+      navigation('/')
     }catch(error) {
       console.log(
         error.response.data.errors
@@ -26,6 +30,12 @@ function Register(props) {
       dispatch(signUserFailure(error.response.data.errors))
     }
   }
+
+  useEffect(() => {
+    if(loggedIn) {
+      navigation('/')
+    }
+  })
 
   return (
     <div className="relative flex min-h-screen text-gray-800 antialiased flex-col justify-center overflow-hidden bg-gray-50 sm:py-12">

@@ -1,7 +1,10 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 function Navbar(props) {
+    const {loggedIn, user} = useSelector(state => state.auth)
+    console.log(loggedIn);
     return (
 <div className="flex flex-col items-center justify-center" x-cloak x-data="appData()" x-init="appInit()">
     <div className="flex flex-col">
@@ -31,17 +34,28 @@ function Navbar(props) {
                     cursor-pointer transition-colors duration-300">
                     Home
                 </Link>
+                {loggedIn ? 
+            (
+                <>
+                <p className='flex text-gray-600 hover:text-blue-500
+                cursor-pointer transition-colors duration-300'>{user.username}</p>
+                <button className="py-1 px-3 border-red-400 text-red-400 hover:bg-red-300 hover:text-white rounded-md border">SignUp</button>
+                </>
+            ) : (
+              <>
+                             <Link to={'/login'} className="flex text-gray-600 
+                cursor-pointer transition-colors duration-300
+                font-semibold
+                Themes">Login
+            </Link>
 
-                <Link to={'/login'} className="flex text-gray-600 
-                    cursor-pointer transition-colors duration-300
-                    font-semibold
-                    Themes">Login
-                </Link>
-
-                <Link to={'/register'} className="flex text-gray-600 hover:text-blue-500
-                    cursor-pointer transition-colors duration-300">
-                    Register
-                </Link>
+            <Link to={'/register'} className="flex text-gray-600 hover:text-blue-500
+                cursor-pointer transition-colors duration-300">
+                Register
+            </Link>
+              </>
+            )    
+            }
             </div>
         </nav>
     </div>

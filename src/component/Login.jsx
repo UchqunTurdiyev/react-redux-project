@@ -1,16 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Input } from "../ui";
 import { signUserFailure, signUserStart, signUserSuccess} from "../slice/auth"
 import AuthService from "../servis/auth";
 import {ValidationError} from "./";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("")
   const [parol, setParol] = useState("")
   const dispatch = useDispatch()
-  const {isLoading} = useSelector(state => state.auth)
+  const {isLoading, loggedIn} = useSelector(state => state.auth)
+  const navigation = useNavigate()
 
   const loginHandler = async (e) => {
       e.preventDefault()
@@ -19,11 +21,16 @@ function Login() {
       try{
         const response = await AuthService.userLogin(user)
         dispatch(signUserSuccess(response.user))
+        navigation('/')
       }catch(error){
         dispatch(signUserFailure(error.response.data.errors))
       }
   }
-
+  useEffect(() => {
+    if(loggedIn) {
+      navigation('/')
+    }
+  })
   console.log(isLoading);
   return (
     <div className="relative flex min-h-screen text-gray-800 antialiased flex-col justify-center overflow-hidden bg-gray-50 sm:py-12">
