@@ -1,10 +1,19 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { logoutUser } from '../slice/auth';
+import { removeItem } from './helpers/Helpers';
 
 function Navbar(props) {
     const {loggedIn, user} = useSelector(state => state.auth)
-    console.log(loggedIn);
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+    
+    const logoutHandler = () => {
+        dispatch(logoutUser())
+       removeItem('token')
+       navigate('/login')
+    }
     return (
 <div className="flex flex-col items-center justify-center" x-cloak x-data="appData()" x-init="appInit()">
     <div className="flex flex-col">
@@ -39,11 +48,11 @@ function Navbar(props) {
                 <>
                 <p className='flex text-gray-600 hover:text-blue-500
                 cursor-pointer transition-colors duration-300'>{user.username}</p>
-                <button className="py-1 px-3 border-red-400 text-red-400 hover:bg-red-300 hover:text-white rounded-md border">SignUp</button>
+                <button className="py-1 px-3 border-red-400 text-red-400 hover:bg-red-300 hover:text-white rounded-md border" onClick={logoutHandler}>SignUp</button>
                 </>
             ) : (
               <>
-                             <Link to={'/login'} className="flex text-gray-600 
+               <Link to={'/login'} className="flex text-gray-600 
                 cursor-pointer transition-colors duration-300
                 font-semibold
                 Themes">Login
